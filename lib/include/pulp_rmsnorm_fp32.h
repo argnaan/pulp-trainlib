@@ -14,8 +14,8 @@ struct sum_of_squares_args {
     unsigned int size;
 };
 
-void weighted_scaling(void* weighted_scaling_args);
+void weighted_scaling_fp32_cl(void* weighted_scaling_args);
 
-void sum_of_squares(void* sum_of_squares_args);
+void sum_of_squares_fp32_cl(void* sum_of_squares_args);
 
-void rmsnorm_parallelized(float* o, float* x, float* weight, int size);
+void rmsnorm_parallelized_fp32(float* o, float* x, float* weight, int size);

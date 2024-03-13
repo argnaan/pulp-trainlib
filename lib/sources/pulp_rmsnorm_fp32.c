@@ -3,13 +3,13 @@
 #include "pulp_rmsnorm_fp32.h"
 #include "math.h"
 
-void rmsnorm_parallelized(float* o, float* x, float* weight, int size){
+void rmsnorm_parallelized_fp32(float* o, float* x, float* weight, int size){
     struct sum_of_squares_args ss_args;
     ss_args.in = x;
     ss_args.out = o; // si sfrutta come buffer il buffer di uscita o. Funziona solo se size >= NUM_CORES e se non è in-place
     ss_args.size = size;
     
-    pi_cl_team_fork(NUM_CORES, sum_of_squares, &ss_args);
+    pi_cl_team_fork(NUM_CORES, sum_of_squares_fp32_cl, &ss_args);
 
     float ss = 0;
     for(int i=0; i<NUM_CORES; i++)
@@ -31,10 +31,10 @@ void rmsnorm_parallelized(float* o, float* x, float* weight, int size){
     ws_args.size = size;
     ws_args.scaling_factor = ss;
 
-    pi_cl_team_fork(NUM_CORES, weighted_scaling, &ws_args);
+    pi_cl_team_fork(NUM_CORES, weighted_scaling_fp32_cl, &ws_args);
 }
 
-void weighted_scaling(void* weighted_scaling_args) {
+void weighted_scaling_fp32_cl(void* weighted_scaling_args) {
     struct weighted_scaling_args* args = (struct weighted_scaling_args* )weighted_scaling_args;
     float* out = args->out;
     float* in = args->in;
@@ -51,7 +51,7 @@ void weighted_scaling(void* weighted_scaling_args) {
     }
 }
 
-void sum_of_squares(void* ss_args){
+void sum_of_squares_fp32_cl(void* ss_args){
     struct sum_of_squares_args* args = (struct sum_of_squares_args*)ss_args;
     float* out = args->out;
     float* in = args->in;

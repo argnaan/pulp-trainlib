@@ -962,7 +962,7 @@ void pulp_mean_std_fp32_cl(void * mean_std_args)
 
 // -----------------------------------------------------------------------
 
-void vector_exp_sum(void * vector_exp_sum_args){
+void vector_exp_sum_fp32_cl(void * vector_exp_sum_args){
     struct vector_exp_sum_args* args = (struct vector_exp_sum_args*) vector_exp_sum_args;
 
     float* input = args->input;

@@ -509,7 +509,7 @@ fastpow2 (float p)
 }
 
 
-void pulp_vector_softmax(float* out, float* in, float* buffer_n_cores, unsigned int size){ 
+void pulp_vector_softmax_fp32(float* out, float* in, float* buffer_n_cores, unsigned int size){ 
   struct max_args ma;
   ma.input = in;
   ma.maxes = buffer_n_cores;
@@ -530,7 +530,7 @@ void pulp_vector_softmax(float* out, float* in, float* buffer_n_cores, unsigned 
   vesa.sums = buffer_n_cores;
   vesa.dim = size;
   
-  pi_cl_team_fork(NUM_CORES, vector_exp_sum, &vesa);
+  pi_cl_team_fork(NUM_CORES, vector_exp_sum_fp32_cl, &vesa);
 
   float sum = 0;
 

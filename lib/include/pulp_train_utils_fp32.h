@@ -583,4 +583,4 @@ struct vector_exp_sum_args{
   float max;
 };
 
-void vector_exp_sum(void * vector_exp_sum_args);
+void vector_exp_sum_fp32_cl(void * vector_exp_sum_args);
