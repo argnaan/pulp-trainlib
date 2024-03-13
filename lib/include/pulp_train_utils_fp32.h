@@ -571,3 +571,16 @@ float fastexp_gist(float x);
 float q_rsqrt(float number);
 
 
+
+
+// ----------------------------------------------------------------------------------------------------------------------
+
+struct vector_exp_sum_args{
+  float* input;
+  float* sums;
+  float* output;
+  int dim;
+  float max;
+};
+
+void vector_exp_sum(void * vector_exp_sum_args);

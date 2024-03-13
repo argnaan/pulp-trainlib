@@ -190,3 +190,8 @@ static inline float fastexp (
 );
 
 
+
+
+// -------------------------------------------------------------------------------------------------------------
+
+void pulp_vector_softmax(float* out, float* in, float* buffer_n_cores, unsigned int size);

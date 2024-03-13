@@ -960,3 +960,32 @@ void pulp_mean_std_fp32_cl(void * mean_std_args)
 }
 
 
+// -----------------------------------------------------------------------
+
+void vector_exp_sum(void * vector_exp_sum_args){
+    struct vector_exp_sum_args* args = (struct vector_exp_sum_args*) vector_exp_sum_args;
+
+    float* input = args->input;
+    float* output = args->output;
+    float* sums = args->sums;
+    int dim = args->dim;
+    float max = args->max;
+
+    int id = pi_core_id();
+
+    const int blockSize=(dim+NUM_CORES-1)/NUM_CORES;
+    const int start = id*blockSize;
+    const int stop = start + blockSize > dim ? dim : start+blockSize;
+
+    sums[id] = 0;
+
+    for(int i=start; i<stop; i++){        
+        #ifdef FASTEXPF
+        float o = fastexp_gist(input[i] - max);
+        #else
+        float o = expf(input[i] - max);
+        #endif
+        output[i] = o;
+        sums[id] += o;   
+    }
+}
