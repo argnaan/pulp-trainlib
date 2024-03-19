@@ -546,3 +546,27 @@ void pulp_vector_softmax_fp32(float* out, float* in, float* buffer_n_cores, unsi
 }
 
 
+void pulp_swiglu_fp32_cl(void *swiglu_args){
+  struct swiglu_args* args = (struct swiglu_args*) swiglu_args;
+  float* in1 = args->in1;
+  float* in2 = args->in2;
+  float* out = args->out;
+  int size = args->dim;
+
+  const uint32_t blockSize = (size+NUM_CORES-1) / NUM_CORES;
+  const uint32_t start = pi_core_id()*blockSize;
+  const uint32_t stop = start+blockSize > size ? size : start+blockSize;
+
+  for(int i=start; i<stop; i++){
+    float val = in1[i];
+
+    #ifdef FASTEXPF
+    val *= (1.0f / (1.0f + fastexp_gist(-val)));
+    #else
+    val *= (1.0f / (1.0f + expf(-val)));
+    #endif
+
+    val *= in2[i];
+    out[i] = val;
+  }
+}

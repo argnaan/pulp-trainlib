@@ -194,4 +194,13 @@ static inline float fastexp (
 
 // -------------------------------------------------------------------------------------------------------------
 
+struct swiglu_args{
+    float* in1;
+    float* in2;
+    float* out;
+    int dim;
+};
+
 void pulp_vector_softmax_fp32(float* out, float* in, float* buffer_n_cores, unsigned int size);
+
+void pulp_swiglu_fp32_cl(void *swiglu_args);
