@@ -3,17 +3,17 @@
 #include "pulp_rmsnorm_fp32.h"
 #include "math.h"
 
-void rmsnorm_parallelized_fp32(float* o, float* x, float* weight, int size){
+void rmsnorm_parallelized_fp32(float* o, float* x, float* weight, float* buffer_n_cores, int size){
     struct sum_of_squares_args ss_args;
     ss_args.in = x;
-    ss_args.out = o; // si sfrutta come buffer il buffer di uscita o. Funziona solo se size >= NUM_CORES e se non è in-place
+    ss_args.out = buffer_n_cores;
     ss_args.size = size;
     
     pi_cl_team_fork(NUM_CORES, sum_of_squares_fp32_cl, &ss_args);
 
     float ss = 0;
     for(int i=0; i<NUM_CORES; i++)
-        ss += o[i];
+        ss += buffer_n_cores[i];
 
     ss /= size;
     ss += 1e-5f;
@@ -63,8 +63,9 @@ void sum_of_squares_fp32_cl(void* ss_args){
     const uint32_t start = id*blockSize;
     const uint32_t stop = start+blockSize > size ? size : start+blockSize;
 
-    out[id] = 0;
+    float res = 0;
     for (uint32_t i = start; i < stop; i++) {
-        out[id] += in[i] * in[i];
+        res += in[i] * in[i];
     }
+    out[id] = res;
 }

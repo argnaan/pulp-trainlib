@@ -305,12 +305,15 @@ void pulp_max_fp32_cl(void * void_args){
     struct max_args* args = (struct max_args *) void_args;
 
     float* input = args->input;
-    float max = args->maxes[pi_core_id()];
+    // float max = args->maxes[pi_core_id()];
+    float max;
     int dim = args->dim;
 
     const int blockSize=(args->dim+NUM_CORES-1)/NUM_CORES;
     const int start = pi_core_id()*blockSize;
     const int stop = start + blockSize > dim ? dim : start+blockSize;
+
+    max = input[start];
 
     for(int i=start; i<stop; i++)
         if(max < input[i])
