@@ -21,11 +21,6 @@
 #include "pmsis.h"
 #include "pulp_train_defines.h"
 
-#define GIST_A  12102203.17133801f
-#define GIST_B  1064986823.010288f
-#define GIST_C  8388608
-#define GIST_D  2139095040  
-
 /**
  * =====> BACKEND STRUCTURES <=====
  */
@@ -531,12 +526,6 @@ void pulp_mean_std_fp16_cl(void * mean_std_args);
 float q_rsqrt_fp16(float number);
 
 
-/* ----------------------------------------------------------------------------------------------
-
-  Funzioni aggiunte per llama2
-
-------------------------------------------------------------------------------------------------*/
-
 struct vector_exp_sum_args_fp16{
   fp16* input;
   fp16* sums;
@@ -548,3 +537,4 @@ struct vector_exp_sum_args_fp16{
 void vector_exp_sum_fp16_cl(void * vector_exp_sum_args);
 
 float fastexp_gist_fp16(float x);
+
