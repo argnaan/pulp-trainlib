@@ -124,3 +124,21 @@ void pulp_softmax_fp16_fw_cl( void * act_args_fp16 );
  * @param output Output of softmax.
 */
 void pulp_softmax_fp16_bw_cl( void * act_args_fp16 );
+
+
+/* ----------------------------------------------------------------------------------------------
+
+  Codice aggiunto per llama2
+
+------------------------------------------------------------------------------------------------*/
+
+struct swiglu_args_fp16{
+    fp16* in1;
+    fp16* in2;
+    fp16* out;
+    int dim;
+};
+
+void pulp_vector_softmax_fp16(fp16* out, fp16* in, fp16* buffer_n_cores, unsigned int size);
+
+void pulp_swiglu_fp16_cl(void *swiglu_args);

@@ -509,6 +509,13 @@ fastpow2 (float p)
 }
 
 
+
+/* ----------------------------------------------------------------------------------------------
+
+  Funzioni aggiunte per llama2
+
+------------------------------------------------------------------------------------------------*/
+
 void pulp_vector_softmax_fp32(float* out, float* in, float* buffer_n_cores, unsigned int size){ 
   struct max_args ma;
   ma.input = in;

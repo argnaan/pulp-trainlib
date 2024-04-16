@@ -529,3 +529,22 @@ v2f16 vfpack(fp16 a, fp16 b);
 void pulp_mean_std_fp16_cl(void * mean_std_args);
 
 float q_rsqrt_fp16(float number);
+
+
+/* ----------------------------------------------------------------------------------------------
+
+  Funzioni aggiunte per llama2
+
+------------------------------------------------------------------------------------------------*/
+
+struct vector_exp_sum_args_fp16{
+  fp16* input;
+  fp16* sums;
+  fp16* output;
+  int dim;
+  fp16 max;
+};
+
+void vector_exp_sum_fp16_cl(void * vector_exp_sum_args);
+
+float fastexp_gist_fp16(float x);

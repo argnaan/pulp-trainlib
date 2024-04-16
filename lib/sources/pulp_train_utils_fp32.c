@@ -315,7 +315,7 @@ void pulp_max_fp32_cl(void * void_args){
 
     max = input[start];
 
-    for(int i=start; i<stop; i++)
+    for(int i=start+1; i<stop; i++)
         if(max < input[i])
             max = input[i];
 
@@ -963,7 +963,12 @@ void pulp_mean_std_fp32_cl(void * mean_std_args)
 }
 
 
-// -----------------------------------------------------------------------
+
+/* ----------------------------------------------------------------------------------------------
+
+  Funzioni aggiunte per llama2
+
+------------------------------------------------------------------------------------------------*/
 
 void vector_exp_sum_fp32_cl(void * vector_exp_sum_args){
     struct vector_exp_sum_args* args = (struct vector_exp_sum_args*) vector_exp_sum_args;
@@ -971,8 +976,8 @@ void vector_exp_sum_fp32_cl(void * vector_exp_sum_args){
     float* input = args->input;
     float* output = args->output;
     float* sums = args->sums;
-    int dim = args->dim;
     float max = args->max;
+    int dim = args->dim;
 
     int id = pi_core_id();
 

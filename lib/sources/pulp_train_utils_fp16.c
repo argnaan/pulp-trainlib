@@ -328,14 +328,16 @@ void pulp_max_fp16_cl(void * void_args){
     struct max_args_fp16* args = (struct max_args_fp16 *) void_args;
 
     fp16* input = args->input;
-    fp16 max = args->maxes[pi_core_id()];
+    fp16 max; //  = args->maxes[pi_core_id()];
     int dim = args->dim;
 
     const int blockSize=(args->dim+NUM_CORES-1)/NUM_CORES;
     const int start = pi_core_id()*blockSize;
     const int stop = start + blockSize > dim ? dim : start+blockSize;
+    
+    max = input[start];
 
-    for(int i=start; i<stop; i++)
+    for(int i=start+1; i<stop; i++)
         if(max < input[i])
             max = input[i];
 
@@ -788,4 +790,39 @@ void pulp_mean_std_fp16_cl(void * mean_std_args)
         *mean = m;
         *var = v;
         *std = (fp16)sqrtf(v);
+}
+
+
+/* ----------------------------------------------------------------------------------------------
+
+  Funzioni aggiunte per llama2
+
+------------------------------------------------------------------------------------------------*/
+
+void vector_exp_sum_fp16_cl(void * vector_exp_sum_args){
+    struct vector_exp_sum_args_fp16* args = (struct vector_exp_sum_args_fp16*) vector_exp_sum_args;
+
+    fp16* input = args->input;
+    fp16* output = args->output;
+    fp16* sums = args->sums;
+    fp16 max = args->max;
+    int dim = args->dim;
+
+    int id = pi_core_id();
+
+    const int blockSize=(dim+NUM_CORES-1)/NUM_CORES;
+    const int start = id*blockSize;
+    const int stop = start + blockSize > dim ? dim : start+blockSize;
+
+    sums[id] = 0;
+
+    for(int i=start; i<stop; i++){        
+        #ifdef FASTEXPF
+        float o = fastexp_gist_fp16((float)(input[i] - max));
+        #else
+        float o = expf((float)(input[i] - max));
+        #endif
+        output[i] = (fp16) o;
+        sums[id] += (fp16) o;   
+    }
 }

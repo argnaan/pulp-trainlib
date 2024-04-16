@@ -1,4 +1,5 @@
-
+#include "pmsis.h"
+#include "pulp_train_defines.h"
 
 struct weighted_scaling_args {
     float* out;
