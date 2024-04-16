@@ -1,10 +1,10 @@
 APP = test_residual
 
-CI?=16
-HI?=8
-WI?=8
+CI?=64
+HI?=56
+WI?=56
 KER?=1
-NUM_CORES?=1
+NUM_CORES?=8
 HWC?=0
 DEBUG_INFO?=0
 STEP?='BACKWARD'
@@ -16,6 +16,7 @@ MATMUL_TYPE?=0
 TRAIN_LIB=../../lib
 TRAIN_LIB_SRCS=$(TRAIN_LIB)/sources
 APP_SRCS += main.c net.c
+
 
 APP_SRCS += $(TRAIN_LIB_SRCS)/pulp_conv2d_fp32.c
 APP_SRCS += $(TRAIN_LIB_SRCS)/pulp_conv2d_fp16.c

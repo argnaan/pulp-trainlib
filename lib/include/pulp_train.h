@@ -24,6 +24,7 @@
  */
 
 #include "pmsis.h"
+#include "pulp_train_defines.h"
 
 // FP32 structures
 #include "pulp_train_utils_fp32.h"
@@ -32,6 +33,7 @@
 #include "pulp_conv_dw_fp32.h"
 #include "pulp_conv_pw_fp32.h"
 #include "pulp_conv2d_fp32.h"
+#include "pulp_conv_naive_fp32.h"
 #include "pulp_im2col_fp32.h"
 #include "pulp_linear_fp32.h"
 #include "pulp_losses_fp32.h"
@@ -51,6 +53,7 @@
 #include "pulp_conv_dw_fp16.h"
 #include "pulp_conv_pw_fp16.h"
 #include "pulp_conv2d_fp16.h"
+#include "pulp_conv_naive_fp16.h"
 #include "pulp_im2col_fp16.h"
 #include "pulp_linear_fp16.h"
 #include "pulp_losses_fp16.h"

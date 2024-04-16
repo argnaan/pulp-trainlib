@@ -18,6 +18,8 @@
  * Authors: Davide Nadalini, Leonardo Ravaglia
 */ 
 
+#ifndef GLOBAL_TRAINLIB_DEFINES
+#define GLOBAL_TRAINLIB_DEFINES
 
 /**
  * =====> GLOBAL DEFINES <=====
@@ -65,4 +67,36 @@ typedef fp16 v2f16 __attribute__((vector_size (4)));        // Vectorized fp16 f
  * @}
  */
 
-    
+
+/**
+ * Constants for Taylor's propagation of 1/2^x 
+ */
+
+#define LOG2    0.6931471805599453f
+#define LOG2_2  0.4804530139182014f
+#define LOG2_3  0.3330246519889294f
+#define LOG2_4  0.2308350985830834f
+#define LOG2_5  0.1600026977571413f
+#define T1      1.0f
+#define T2      0.5f
+#define T3      0.16f
+#define T4      0.0416f
+#define T5      0.008f 
+
+#define GIST_A  12102203.17133801f
+#define GIST_B  1064986823.010288f
+#define GIST_C  8388608
+#define GIST_D  2139095040  
+
+
+/**
+ * Constants for Normalization Layers
+*/
+
+/**
+ * @brief small number used to avoid division by zero 
+ */ 
+#define EPSILON 1e-10
+
+
+#endif
