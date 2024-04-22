@@ -580,22 +580,4 @@ float q_rsqrt(float number);
  */
 void vector_exp_sum_fp32_cl(void * vector_exp_sum_args);
 
-
-
-
-
-/* ----------------------------------------------------------------------------------------------
-
-  Funzioni aggiunte per llama2
-
-------------------------------------------------------------------------------------------------*/
-
-struct vector_exp_sum_args{
-  float* input;
-  float* sums;
-  float* output;
-  int dim;
-  float max;
-};
-
-void vector_exp_sum_fp32_cl(void * vector_exp_sum_args);
+void cordic_cos_sin_fp32(float angle, float* cos, float* sin);

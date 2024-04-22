@@ -975,3 +975,45 @@ void vector_exp_sum_fp32_cl(void * vector_exp_sum_args){
         sums[id] += o;   
     }
 }
+
+#define CORDIC_N_ITERATION 10
+#define CORDIC_SCALING_FACTOR_14 0.6072529365170104
+#define CORDIC_SCALING_FACTOR_10 0.6072533210898753
+
+const float atan_pow_2[14] = {
+    0.7853981633974483, 
+    0.4636476090008061, 
+    0.24497866312686414, 
+    0.12435499454676144, 
+    0.06241880999595735, 
+    0.031239833430268277, 
+    0.015623728620476831, 
+    0.007812341060101111, 
+    0.0039062301319669718, 
+    0.0019531225164788188, 
+    0.0009765621895593195, 
+    0.0004882812111948983, 
+    0.00024414062014936177, 
+    0.00012207031189367021 };
+
+void cordic_cos_sin_fp32(float angle, float* cos, float* sin){
+    int inv_tan_theta = 1;
+    float x = CORDIC_SCALING_FACTOR_10;
+    float y = 0;
+    float x_n;
+    for(int i=0; i<CORDIC_N_ITERATION; i++){
+        if(angle > 0){
+            x_n = x - y / inv_tan_theta;
+            y = y + x / inv_tan_theta;
+            angle -= atan_pow_2[i];
+        } else{
+            x_n = x + y / inv_tan_theta;
+            y = y - x / inv_tan_theta;
+            angle += atan_pow_2[i];
+        }
+        inv_tan_theta *= 2;
+        x = x_n;
+    }
+    *cos = x;
+    *sin = y;
+}
