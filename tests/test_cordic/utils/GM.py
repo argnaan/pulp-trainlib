@@ -9,14 +9,15 @@ args = parser.parse_args()
 
 n_test = args.n_test
 
-angles = torch.empty(n_test).uniform_(-math.pi/2, math.pi/2)
+# angles = torch.empty(n_test).uniform_(-math.pi/2, math.pi/2)
+angles = torch.empty(n_test).uniform_(0, 10)
 
 cos = torch.cos(angles)
 sin = torch.sin(angles)
 
 # Write data to file
 f = open("cordic_data.h", "w")
-f.write("#define N_TEST "+str(n_test)+"\n")
+# f.write("#define N_TEST "+str(n_test)+"\n")
 f.write("PI_L1 float gm_angles["+str(n_test)+"] = {"+dump.tensor_to_string(angles)+"};\n")
 f.write("PI_L2 float gm_cos["+str(n_test)+"] = {"+dump.tensor_to_string(cos)+"};\n")
 f.write("PI_L2 float gm_sin["+str(n_test)+"] = {"+dump.tensor_to_string(sin)+"};\n")

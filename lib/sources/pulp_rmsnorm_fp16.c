@@ -19,7 +19,7 @@ void rmsnorm_parallelized_fp16(fp16* o, fp16* x, fp16* weight, fp16* buffer_n_co
     ss += 1e-5f;
 
     #ifdef Q_RSQRT
-    ss = q_rsqrt(ss);
+    ss = q_rsqrt_fp16(ss);
     #else
     ss = 1.0f / sqrtf(ss);
     #endif

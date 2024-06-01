@@ -538,3 +538,4 @@ void vector_exp_sum_fp16_cl(void * vector_exp_sum_args);
 
 float fastexp_gist_fp16(float x);
 
+void cordic_cos_sin_fp16(fp16 angle, fp16* cos, fp16* sin);
